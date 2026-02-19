@@ -1,8 +1,19 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-//MENU FUNCTION
+struct Appliance
+{
+    string name;
+    double watts;
+    double hours;
+};
+
+vector<Appliance> applianceList;
+
+
+// ================= MENU =================
 void showMenu()
 {
     cout << "\n===== Electrical Load Monitoring System =====\n";
@@ -16,6 +27,28 @@ void showMenu()
 }
 
 
+// ================= REGISTER =================
+void addAppliance()
+{
+    Appliance item;
+
+    cin.ignore();
+    cout << "Enter appliance name: ";
+    getline(cin, item.name);
+
+    cout << "Enter power (watts): ";
+    cin >> item.watts;
+
+    cout << "Enter hours used per day: ";
+    cin >> item.hours;
+
+    applianceList.push_back(item);
+
+    cout << "Appliance added successfully.\n";
+}
+
+
+// ================= MAIN =================
 int main()
 {
     int choice;
@@ -25,7 +58,11 @@ int main()
         showMenu();
         cin >> choice;
 
-        if (choice == 6)
+        if (choice == 1)
+        {
+            addAppliance();
+        }
+        else if (choice == 6)
         {
             cout << "Goodbye!\n";
             break;

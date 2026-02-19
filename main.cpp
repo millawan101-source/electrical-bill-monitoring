@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 using namespace std;
 
@@ -48,6 +49,33 @@ void addAppliance()
 }
 
 
+// ================= VIEW =================
+void displayAppliances()
+{
+    if (applianceList.empty())
+    {
+        cout << "No appliances registered.\n";
+        return;
+    }
+
+    cout << fixed << setprecision(2);
+
+    cout << "\nNo  Name                Watts   Hours   kWh/day\n";
+    cout << "------------------------------------------------\n";
+
+    for (int i = 0; i < applianceList.size(); i++)
+    {
+        double energy = (applianceList[i].watts / 1000) * applianceList[i].hours;
+
+        cout << i + 1 << ". "
+             << setw(18) << left << applianceList[i].name
+             << setw(8) << applianceList[i].watts
+             << setw(8) << applianceList[i].hours
+             << energy << endl;
+    }
+}
+
+
 // ================= MAIN =================
 int main()
 {
@@ -61,6 +89,10 @@ int main()
         if (choice == 1)
         {
             addAppliance();
+        }
+        else if (choice == 2)
+        {
+            displayAppliances();
         }
         else if (choice == 6)
         {

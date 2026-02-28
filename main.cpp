@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ struct Appliance
 };
 
 vector<Appliance> applianceList;
+string fileName = "appliances.txt";
 
 
 // ================= MENU =================
@@ -140,6 +142,29 @@ void calculateBill()
 }
 
 
+// ================= SAVE TO FILE =================
+void saveAppliances()
+{
+    ofstream outFile(fileName);
+
+    if (!outFile)
+    {
+        cout << "Error opening file.\n";
+        return;
+    }
+
+    for (int i = 0; i < applianceList.size(); i++)
+    {
+        outFile << applianceList[i].name << "|"
+                << applianceList[i].watts << "|"
+                << applianceList[i].hours << endl;
+    }
+
+    outFile.close();
+    cout << "Appliances saved successfully.\n";
+}
+
+
 // ================= MAIN =================
 int main()
 {
@@ -158,13 +183,15 @@ int main()
             searchAppliance();
         else if (choice == 4)
             calculateBill();
+        else if (choice == 5)
+            saveAppliances();
         else if (choice == 6)
         {
             cout << "Goodbye!\n";
             break;
         }
         else
-            cout << "Feature not implemented yet.\n";
+            cout << "Invalid choice.\n";
     }
 
     return 0;

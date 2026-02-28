@@ -2,6 +2,7 @@
 #include <vector>
 #include <iomanip>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -163,6 +164,38 @@ void calculateBill()
     cout << "\nTotal Daily Energy: " << totalEnergy << " kWh\n";
     cout << "Daily Cost: " << dailyCost << endl;
     cout << "Estimated Monthly Cost (30 days): " << monthlyCost << endl;
+
+    char choice;
+    cout << "\nSave billing summary? (y/n): ";
+    cin >> choice;
+
+    if (choice == 'y' || choice == 'Y')
+    {
+        ofstream outFile("billing_summary.txt", ios::app);
+
+        time_t now = time(0);
+        char* dateTime = ctime(&now);
+
+        outFile << "\n==============================\n";
+        outFile << "Billing Summary - " << dateTime;
+        outFile << "------------------------------\n";
+
+        for (int i = 0; i < applianceList.size(); i++)
+        {
+            double energy = (applianceList[i].watts / 1000) * applianceList[i].hours;
+            outFile << applianceList[i].name
+                    << " - " << energy << " kWh/day\n";
+        }
+
+        outFile << "\nTotal Daily Energy: " << totalEnergy << " kWh\n";
+        outFile << "Daily Cost: " << dailyCost << endl;
+        outFile << "Estimated Monthly Cost (30 days): " << monthlyCost << endl;
+        outFile << "==============================\n";
+
+        outFile.close();
+
+        cout << "Billing summary saved successfully.\n";
+    }
 }
 
 
@@ -170,12 +203,6 @@ void calculateBill()
 void saveAppliances()
 {
     ofstream outFile(fileName);
-
-    if (!outFile)
-    {
-        cout << "Error opening file.\n";
-        return;
-    }
 
     for (int i = 0; i < applianceList.size(); i++)
     {

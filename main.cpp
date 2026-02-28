@@ -108,6 +108,38 @@ void searchAppliance()
 }
 
 
+// ================= CALCULATE BILL =================
+void calculateBill()
+{
+    if (applianceList.empty())
+    {
+        cout << "No appliances available.\n";
+        return;
+    }
+
+    double tariff;
+    cout << "Enter tariff per kWh: ";
+    cin >> tariff;
+
+    double totalEnergy = 0;
+
+    for (int i = 0; i < applianceList.size(); i++)
+    {
+        double energy = (applianceList[i].watts / 1000) * applianceList[i].hours;
+        totalEnergy += energy;
+    }
+
+    double dailyCost = totalEnergy * tariff;
+    double monthlyCost = dailyCost * 30;
+
+    cout << fixed << setprecision(2);
+
+    cout << "\nTotal Daily Energy: " << totalEnergy << " kWh\n";
+    cout << "Daily Cost: " << dailyCost << endl;
+    cout << "Estimated Monthly Cost (30 days): " << monthlyCost << endl;
+}
+
+
 // ================= MAIN =================
 int main()
 {
@@ -119,26 +151,20 @@ int main()
         cin >> choice;
 
         if (choice == 1)
-        {
             addAppliance();
-        }
         else if (choice == 2)
-        {
             displayAppliances();
-        }
         else if (choice == 3)
-        {
             searchAppliance();
-        }
+        else if (choice == 4)
+            calculateBill();
         else if (choice == 6)
         {
             cout << "Goodbye!\n";
             break;
         }
         else
-        {
             cout << "Feature not implemented yet.\n";
-        }
     }
 
     return 0;

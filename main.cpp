@@ -60,19 +60,51 @@ void displayAppliances()
 
     cout << fixed << setprecision(2);
 
-    cout << "\nNo  Name                Watts   Hours   kWh/day\n";
-    cout << "------------------------------------------------\n";
-
     for (int i = 0; i < applianceList.size(); i++)
     {
         double energy = (applianceList[i].watts / 1000) * applianceList[i].hours;
 
-        cout << i + 1 << ". "
-             << setw(18) << left << applianceList[i].name
-             << setw(8) << applianceList[i].watts
-             << setw(8) << applianceList[i].hours
-             << energy << endl;
+        cout << applianceList[i].name << " | "
+             << applianceList[i].watts << "W | "
+             << applianceList[i].hours << " hrs | "
+             << energy << " kWh/day\n";
     }
+}
+
+
+// ================= SEARCH =================
+void searchAppliance()
+{
+    if (applianceList.empty())
+    {
+        cout << "No appliances available.\n";
+        return;
+    }
+
+    cin.ignore();
+    string keyword;
+    cout << "Enter appliance name to search: ";
+    getline(cin, keyword);
+
+    bool found = false;
+
+    for (int i = 0; i < applianceList.size(); i++)
+    {
+        if (applianceList[i].name.find(keyword) != string::npos)
+        {
+            double energy = (applianceList[i].watts / 1000) * applianceList[i].hours;
+
+            cout << applianceList[i].name << " | "
+                 << applianceList[i].watts << "W | "
+                 << applianceList[i].hours << " hrs | "
+                 << energy << " kWh/day\n";
+
+            found = true;
+        }
+    }
+
+    if (!found)
+        cout << "Appliance not found.\n";
 }
 
 
@@ -93,6 +125,10 @@ int main()
         else if (choice == 2)
         {
             displayAppliances();
+        }
+        else if (choice == 3)
+        {
+            searchAppliance();
         }
         else if (choice == 6)
         {

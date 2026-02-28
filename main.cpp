@@ -16,6 +16,30 @@ vector<Appliance> applianceList;
 string fileName = "appliances.txt";
 
 
+// ================= LOAD FROM FILE =================
+void loadAppliances()
+{
+    ifstream inFile(fileName);
+
+    if (!inFile)
+        return;
+
+    Appliance item;
+
+    while (getline(inFile, item.name, '|'))
+    {
+        inFile >> item.watts;
+        inFile.ignore();
+        inFile >> item.hours;
+        inFile.ignore();
+
+        applianceList.push_back(item);
+    }
+
+    inFile.close();
+}
+
+
 // ================= MENU =================
 void showMenu()
 {
@@ -168,6 +192,8 @@ void saveAppliances()
 // ================= MAIN =================
 int main()
 {
+    loadAppliances();
+
     int choice;
 
     while (true)
@@ -187,6 +213,7 @@ int main()
             saveAppliances();
         else if (choice == 6)
         {
+            saveAppliances();
             cout << "Goodbye!\n";
             break;
         }
